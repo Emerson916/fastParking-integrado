@@ -1,0 +1,8 @@
+{
+    "name": "emerson/fast-parking-integrado",
+    "autoload": {
+        "psr-4": {
+            "App\\": "App/"
+        }
+    }
+}
