@@ -30,7 +30,9 @@ Backend : <a href="https://github.com/rafanleme">Rafael leme</a>, SENAI Jandira 
 Carro :
 
 POST - Adicionar/addcliente
+
 PUT  - Editar/cliente/:id
+
 DEL  - Saida/cliente/:id
 
 Preço : 
