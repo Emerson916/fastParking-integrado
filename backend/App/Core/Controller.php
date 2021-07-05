@@ -7,7 +7,7 @@ class Controller{
     //recebemos o model a ser instanciado
     //retornamos a instancia pronta
 
-    public function model($model){
+    public function Model($model){
         require_once ("../App/Model/" . $model . ".php");
         return new $model;
     }

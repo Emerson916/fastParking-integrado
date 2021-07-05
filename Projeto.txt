@@ -2,6 +2,42 @@ link do projeto:
 
 https://www.notion.so/Fast-Parking-API-dd3ebbd606c647bea84425a671fbb365
 
+### Funcionalidades do sistema 
+
+Todas as funcionalidades foram coletadas no momento do levantamento de requisitos.
+
+1. Controle de entrada.
+    1. Armazenar Nome do Cliente, placa do veículo, data e Horário.
+    2. Gerar comprovante de entrada.
+2. Controle de saída.
+    1. Saída do veiculo
+    2. Calculo do valor a pagar
+3. Cadastro de preços.
+    1. Primeira hora
+    2. Demais horas
+
+### Tarefas - FrontEnd
+
+1. Analisar os wireframes verificando o que falta ou está incorreto e corrigir tudo que seja necessário.
+2. Criar as paginas (HTML e CSS) conforme os wireframes.
+3. Criar as ações utilizando javascript puro, ou seja, sem frameworks.
+4. Consumir todos os dados do backend criado
+5. Criar um repositório no github para o projeto, lembrando de habilitar o github pages 
+6. Criar o documento README.md.
+
+Pesquise como fazer um bom README.md
+
+### Tarefas - Back-end
+
+1. Analisar a aplicação já criada anteriormente e extrair os parâmetros para criação do back-end:
+2. Quais recursos criar (rotas/end-points), estruturar no POSTMAN.
+3. Quais Controllers e Models criar.
+4. Estruturar as informações que trafegarão em cada recurso.
+5. Implementar os Controllers e Models.
+6. Configurar o CORS.
+7. Criar um repositório no GITHUB para o back-end. 
+8. Publicar o projeto back-end no [https://br.000webhost.com/](https://br.000webhost.com/)
+
 link do projeto web:
 
 api.fastparking.com.br
