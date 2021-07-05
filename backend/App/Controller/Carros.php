@@ -37,7 +37,7 @@
 
         //verificando se deu certo
         if($carrosModel){
-            //se deu certo, retornar a categoria inserida
+            //se deu certo, retornar o carro inserido
             http_response_code(201);
             echo json_encode($carrosModel, JSON_UNESCAPED_UNICODE);
 
@@ -46,8 +46,38 @@
             http_response_code(500);
             echo json_encode(["erro" => "Problemas ao inserir um novo carro"]);
         }
-
     }
+
+    public function update($id){
+
+        $editarCarros = $this->getRequestBody();
+
+        $carrosModel = $this->model("Carro");
+
+        $carrosModel = $carrosModel->buscarPorId($id);
+
+        if(!$carrosModel){
+            http_response_code(404);
+            echo json_encode(["erro" => "Carro não encontrado"]);
+            exit();
+        }
+
+        //atribuindo a descricao ao model
+        $carrosModel->nome = $editarCarros->nome;
+        $carrosModel->placa = $editarCarros->placa;
+
+        //verificando se deu certo
+        if($carrosModel->update()){
+            //se deu certo, retornar o carro inserido
+            http_response_code(204);
+        }else{
+            //se deu errado, mudar status code para 500 e retornar mensagem de erro
+            http_response_code(500);
+            echo json_encode(["erro" => "Parâmetro invalido"]);
+        }
+    }
+
+
 }
     
 ?>
