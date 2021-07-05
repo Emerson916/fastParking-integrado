@@ -25,19 +25,4 @@ Frontend : <a href="https://github.com/fernandoleonid">Fernando Leonid</a>, SENA
 
 Backend : <a href="https://github.com/rafanleme">Rafael leme</a>, SENAI Jandira 2021.
 
-## Rotas postman
-
-Carro :
-
-POST - Adicionar/addcliente
-
-PUT  - Editar/cliente/:id
-
-DEL  - Saida/cliente/:id
-
-Preço : 
-
-GET  - Salvar/preco
-
-
 🚧 Em andamento...🚧
