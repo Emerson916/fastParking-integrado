@@ -1,6 +1,6 @@
 <center>
   
-### Entradas da API 
+### Entradas da API / POSTMAN
   
 
 **URL**             | **Método**     | **Descrição**
