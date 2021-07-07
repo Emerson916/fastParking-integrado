@@ -41,3 +41,31 @@ Pesquise como fazer um bom README.md
 link do projeto web:
 
 api.fastparking.com.br
+
+
+
+/**** ANOTAÇÕES -- Sobre data ****/
+
+
+date_default_timezone_set("America/Sao_Paulo");
+
+        // $dataAnterior = new DateTime("2021-07-07 07:30");
+
+        //horário que veio do banco, em que o carro entrou 
+        $horaAnterior = DateTime::createFromFormat("H:i", "05:35");
+
+        $dataAtual = new DateTime();
+
+        $intervalo = $dataAtual->diff($horaAnterior);
+
+        print_r($intervalo);
+
+        $preco = 2.5;
+
+        $horas = $intervalo->h;
+
+        $horas = $intervalo->i > 5 ? $horas + 1 : $horas;
+
+        $valorAPagar = $horas * $preco;
+
+        echo "<br/><br/>Você deve pagar: R$ $valorAPagar";

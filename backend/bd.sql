@@ -15,6 +15,12 @@ create table tblCarros(
     references tblPrecos(idPrecos)
 );
 
+
+alter table tblCarros 
+	add column totalValor decimal,
+	add column horaSaida time
+;
+
 insert into tblCarros (idPrecos ,nome, placa, dataEntrada, horaEntrada) 
 	values (1,'Emerson', 'ABC-1234', '2021-07-02', '09:35:00');
     

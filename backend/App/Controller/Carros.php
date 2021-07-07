@@ -77,6 +77,42 @@
         }
     }
 
+    public function delete($id){
+
+        $carrosModel = $this->model("Carro");
+
+        $carrosModel = $carrosModel->buscarPorId($id);
+
+        if(!$carrosModel){
+            http_response_code(404);
+            echo json_encode(["erro" => "Carro não encontrado"]);
+            exit();
+        }
+
+        if($carrosModel->delete()){
+            //se deu certo, exclui o carro
+            http_response_code(204);
+        }else{
+            //se deu errado, mudar status code para 500 e retornar mensagem de erro
+            http_response_code(500);
+            echo json_encode(["erro" => "Parâmetro invalido"]);
+        }
+    }
+
+
+    public function find($id){
+
+        $carrosModel = $this->model("Carro");
+
+        $carros = $carrosModel->buscarPorId($id); 
+
+       if($carros){
+            echo json_encode($carros, JSON_UNESCAPED_UNICODE);
+       }else{
+           http_response_code(404);
+           echo json_encode(["erro" => "Carro não encontrada!!"]);
+       } 
+    }
 
 }
     

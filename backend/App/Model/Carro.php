@@ -10,6 +10,8 @@ class Carro{
     public $placa;
     public $dataEntrada;
     public $horaEntrada;
+    public $totalValor;
+    public $horaSaida;
     
     public function listarTodas(){
 
@@ -28,12 +30,6 @@ class Carro{
     }
 
     public function inserir(){
-
-
-        // $sql = "INSERT INTO tblCarros
-        //          (dataEntrada, horaEntrada, nome, placa, statusCarro, idPreco)
-        //          VALUES
-        //          (curdate(), curtime(), ?, ?, ?, ?) "
 
         $sql = " INSERT INTO tblCarros (dataEntrada, horaEntrada, idPrecos, nome, placa )
              VALUES (curdate(), curtime(), ?, ?, ?) ";
@@ -82,6 +78,8 @@ class Carro{
             $this->placa = $carro->placa;
             $this->dataEntrada = $carro->dataEntrada;
             $this->horaEntrada = $carro->horaEntrada;
+            $this->totalValor = $carro->totalValor;
+            $this->horaSaida = $carro->horaSaida;
            
             
             return $this;
@@ -89,5 +87,17 @@ class Carro{
             return false;
         }
     }
+
+    public function delete(){
+
+        $sql = " DELETE FROM tblCarros WHERE idCarros = ? ";
+
+        $stmt = Model::getConexao()->prepare($sql);
+        $stmt->bindValue(1, $this->idCarros);
+
+        return $stmt->execute();
+
+    }
+
 }
 ?>
