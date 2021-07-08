@@ -110,7 +110,7 @@
             echo json_encode($carros, JSON_UNESCAPED_UNICODE);
        }else{
            http_response_code(404);
-           echo json_encode(["erro" => "Carro não encontrada!!"]);
+           echo json_encode(["erro" => "Carro não encontrado!!"]);
        } 
     }
 

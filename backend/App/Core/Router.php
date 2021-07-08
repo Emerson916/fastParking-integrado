@@ -48,8 +48,11 @@ class Router
         switch ($this->httpMethod) {
 
             case "GET":
-                if (!isset($url[2])) {
+               if (!isset($url[2])) {
                     $this->controllerMethod = "index";
+                } elseif (is_numeric($url[2])) {
+                    $this->controllerMethod = "find";
+                    $this->params = [$url[2]];
                 } else {
                     http_response_code(400);
                     echo json_encode(["erro" => "Parâmetro inválido"], JSON_UNESCAPED_UNICODE);
