@@ -85,13 +85,11 @@ class Router
     }
 
     //Recuperar a URL e retornar os parametros
-    private function parseURL()
-    {
+    private function parseURL(){
         return explode("/", $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"]);
     }
 
-    private function getParams($url)
-    {
+    private function getParams($url){
         if (isset($url[2]) && is_numeric($url[2])) {
             $this->params = [$url[2]];
         } else {

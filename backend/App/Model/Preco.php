@@ -28,5 +28,24 @@ class Preco {
         }
     }
 
+    public function inserir(){
+
+        $sql = " INSERT INTO tblPrecos (primeiraHora, demaisHoras)
+                    VALUES (?,?) ";
+
+        $stmt = Model::getConexao()->prepare($sql);
+        $stmt->bindValue(1, $this->primeiraHora);
+        $stmt->bindValue(2, $this->demaisHoras);
+        
+
+        if($stmt->execute()){
+            //se der certo, atribuir o id inserido a instância desta classe
+            $this->idPrecos = Model::getConexao()->lastInsertId();
+            return $this;
+        }else{
+            return false;
+        }
+    }
+
 }
 ?>

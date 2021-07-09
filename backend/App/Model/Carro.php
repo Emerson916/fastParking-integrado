@@ -32,7 +32,7 @@ class Carro{
     public function inserir(){
 
         $sql = " INSERT INTO tblCarros (dataEntrada, horaEntrada, idPrecos, nome, placa )
-             VALUES (curdate(), curtime(), ?, ?, ?) ";
+                    VALUES (curdate(), curtime(), ?, ?, ?) ";
 
         $stmt = Model::getConexao()->prepare($sql);
         $stmt->bindValue(1, $this->idPrecos);
