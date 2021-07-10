@@ -11,7 +11,7 @@ class Precos extends Controller{
 
         $precos = $precoModel->listarTodos();
 
-       
+        echo json_encode($precos, JSON_UNESCAPED_UNICODE);
     }
 
     public function store(){
