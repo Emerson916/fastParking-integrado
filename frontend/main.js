@@ -14,12 +14,13 @@ const closeModalExit = () => document.querySelector('#modal-exit').classList.rem
 const getCar = async (url) => {
     const response = await fetch(url)
     const json = await response.json()
-    return json.data
+    return json
 }
 
 /* Adicionando um novo carro */
 
 const createCar = async (carro) => {
+    console.log(carro)
     const url = "http://api.fastparking.com.br/Carros"
     const options = {
         method: 'POST',
@@ -41,13 +42,15 @@ const createPreco = async (preco) => {
 
 /* Editar carro */
 
-const updateCar = async (contact) => {
-    const url = `http://api.fastparking.com.br/Carros/${carros.id}`
+const updateCar = async (carro, index) => {
+    const url = `http://api.fastparking.com.br/Carros/${index}`
+    console.log(index)
     const options = {
         method: 'PUT',
-        body: JSON.stringify(contact)
+        body: JSON.stringify(carro)
     }
     await fetch(url, options)
+
 }
 
 /* Criando uma nova linha */
@@ -62,7 +65,8 @@ const createRow = (carro, index) => {
         <td>${carro.placa}</td>
         <td>${carro.dataEntrada}</td>
         <td>${carro.horaEntrada}</td>
-        <td>
+
+    <td>
         <button data-index="${index+1}" id="button-receipt" class="button green" type="button">Comp.</button>
         <button data-index="${index+1}" id="button-edit" class="button blue" type="button">Editar</button>
         <button data-index="${index+1}" id="button-exit" class="button red" type="button">Saída</button>
@@ -80,6 +84,8 @@ const updateTable = async () => {
     carros.forEach(createRow);
 }
 
+/* Limpar as tabelas  os inputs */
+
 const clearTable = () => {
     const tbody = document.querySelector('#tableCars tbody')
     while (tbody.firstChild) {
@@ -91,6 +97,30 @@ const clearInputs = () => {
     const inputs = Array.from(document.querySelectorAll('input'));
     inputs.forEach(input => input.value = "");
     document.getElementById('nome').dataset.idcar = "new";
+}
+
+const isValidForm = () => document.querySelector('#form-register').reportValidity()
+
+/* salvar carro */
+
+const saveCarro = async () => {
+    if (isValidForm()) {
+        const newCarro = {
+            nome  : document.querySelector('#nome').value,
+            placa : document.querySelector('#placa').value,
+        }
+
+        const idCarro = document.getElementById('nome').dataset.idcar
+        if (idCarro == "new") {
+            await createCar(newCarro)
+        } else {
+            newCarro.id = idCarro
+            await updateCar(newCarro)
+            
+        }
+        updateTable()
+        
+    }
 }
 
 // MODAL DE PREÇOS
@@ -117,3 +147,11 @@ document.querySelector('#close-exit')
 document.querySelector('#cancelar-exit')
     .addEventListener('click', () => { closeModalExit(); clearInputs() });
 
+//SALVAR CARRO
+document.querySelector('#salvar')
+    .addEventListener('click', saveCarro);
+// //SALVAR PREÇO
+// document.querySelector('#salvarPreco')
+//     .addEventListener('click', savePrice);
+
+updateTable();

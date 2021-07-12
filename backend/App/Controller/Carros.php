@@ -26,9 +26,10 @@
 
         //instanciando o model
         $carrosModel = $this->model("Carro");
+        $precoModel = $this->model("Preco");
 
         //atribuindo a descricao ao model
-        $carrosModel->idPrecos = $novoCarro->idPrecos;
+        $carrosModel->idPrecos = $precoModel->getUltimoPreco()->idPrecos;
         $carrosModel->nome = $novoCarro->nome;
         $carrosModel->placa = $novoCarro->placa;
 
