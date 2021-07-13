@@ -11,7 +11,7 @@ const closeModalReceipt = () => document.querySelector('#modal-receipt').classLi
 const openModalExit = () => document.querySelector('#modal-exit').classList.add('active');
 const closeModalExit = () => document.querySelector('#modal-exit').classList.remove('active');
 
-const getCar = async (url) => {
+const pegarCarro = async (url) => {
     const response = await fetch(url)
     const json = await response.json()
     return json
@@ -44,7 +44,7 @@ const createPreco = async (preco) => {
 
 const updateCar = async (carro, index) => {
     const url = `http://api.fastparking.com.br/Carros/${index}`
-    console.log(index)
+    
     const options = {
         method: 'PUT',
         body: JSON.stringify(carro)
@@ -67,11 +67,11 @@ const createRow = (carro, index) => {
         <td>${carro.horaEntrada}</td>
 
     <td>
-        <button data-index="${index+1}" id="button-receipt" class="button green" type="button">Comp.</button>
-        <button data-index="${index+1}" id="button-edit" class="button blue" type="button">Editar</button>
-        <button data-index="${index+1}" id="button-exit" class="button red" type="button">Saída</button>
+        <button data-index="${carro.idCarros}" id="button-receipt" class="button green" type="button">Comp.</button>
+        <button data-index="${carro.idCarros}" id="button-edit" class="button blue" type="button">Editar</button>
+        <button data-index="${carro.idCarros}" id="button-exit" class="button red" type="button">Saída</button>
     </td>`;
-    
+
     tbody.appendChild(newRow)
 }
 
@@ -80,7 +80,7 @@ const createRow = (carro, index) => {
 const updateTable = async () => {
     clearTable();
     const url = 'http://api.fastparking.com.br/Carros';
-    const carros = await getCar(url);
+    const carros = await pegarCarro(url);
     carros.forEach(createRow);
 }
 
@@ -106,22 +106,125 @@ const isValidForm = () => document.querySelector('#form-register').reportValidit
 const saveCarro = async () => {
     if (isValidForm()) {
         const newCarro = {
-            nome  : document.querySelector('#nome').value,
-            placa : document.querySelector('#placa').value,
+            nome: document.querySelector('#nome').value,
+            placa: document.querySelector('#placa').value,
         }
 
         const idCarro = document.getElementById('nome').dataset.idcar
         if (idCarro == "new") {
             await createCar(newCarro)
         } else {
-            newCarro.id = idCarro
-            await updateCar(newCarro)
+            const qualquercoisa = idCarro
             
+            await updateCar(newCarro, qualquercoisa)
+
         }
         updateTable()
-        
     }
 }
+
+/* Salvar um novo preço */
+
+const isValidFormPrice = () => document.querySelector('#form-price').reportValidity();
+
+const savePreco = async () => {
+    if (isValidFormPrice()) {
+        const newPreco = {
+            primeiraHora: document.querySelector('#primeira-hora').value,
+            demaisHoras: document.querySelector('#demais-horas').value
+        }
+        await createPreco(newPreco);
+        clearInputs();
+        closeModalPrices();
+    }
+}
+
+const setReceipt = async (index) => {
+    const url = `http://api.fastparking.com.br/Carros/${index}`;
+    const carro = await pegarCarro(url);
+    const input = Array.from(document.querySelectorAll('#form-receipt input'));
+    input[0].value = carro.nome;
+    input[1].value = carro.placa;
+    input[2].value = carro.dataEntrada;
+    input[3].value = carro.horaEntrada;
+}
+
+/* Deletar carros */
+
+const deletarCarro = async (index) => {
+    const url = `http://api.fastparking.com.br/Carros/${index}`;
+    const opitions = {
+        method: 'DELETE'
+    }
+    await fetch(url, opitions);
+}
+
+// const deletarCarro = async () => {
+
+//     const placaCarro = prompt("Digite a placa do carro que deseja excluir, para confimar")
+
+//     if (placaCarro == placaCarro) {
+//         const url = `http://api.fastparking.com.br/Carros/${placaCarro}`
+//         const options = {
+//             method: 'DELETE',
+//         }
+//         await fetch(url, options)
+//     }
+// }
+
+const setExit = async (index) => {
+    const carro = await pegarCarro(`http://api.fastparking.com.br/Carros/${index}`);
+    
+    console.log(carro)
+    
+    const input = Array.from(document.querySelectorAll('#form-exit input'));
+    input[0].value = carro.nome;
+    input[1].value = carro.placa;
+    input[2].value = carro.horaEntrada;
+    input[3].value = null;
+    input[4].value = 'R$ 4.50';
+
+    await deletarCarro(index);
+    updateTable();
+}
+
+const fillInputsEdit = async (index) => {
+    
+    const url = `http://api.fastparking.com.br/Carros/${index}`;
+    const carro = await pegarCarro(url);
+
+    document.querySelector('#nome').value = carro.nome
+    document.querySelector('#placa').value = carro.placa
+    document.getElementById('nome').dataset.idcar = carro.idCarros;
+
+}
+
+const botoesAcoes = (event) => {
+    const button = event.target;
+
+    if (button.id == "button-receipt") {
+        const index = button.dataset.index;
+        openModalReceipt();
+        setReceipt(index);
+
+    } else if (button.id == "button-exit") {
+        const teste = confirm("O cliente já foi embora ?")
+        if (teste) {
+            const index = button.dataset.index;
+            openModalExit();
+            setExit(index);
+        }else{
+            alert('tente novamente!!')
+        }
+
+    } else if (button.id == "button-edit") {
+        const index = button.dataset.index;
+        fillInputsEdit(index);
+    }
+}
+
+
+
 
 // MODAL DE PREÇOS
 document.querySelector('#precos')
@@ -150,8 +253,14 @@ document.querySelector('#cancelar-exit')
 //SALVAR CARRO
 document.querySelector('#salvar')
     .addEventListener('click', saveCarro);
-// //SALVAR PREÇO
-// document.querySelector('#salvarPreco')
-//     .addEventListener('click', savePrice);
+
+//SALVAR PREÇO
+document.querySelector('#salvarPreco')
+    .addEventListener('click', savePreco);
+
+
+// SELETOR DOS BOTÕES
+document.querySelector('#tableCars')
+    .addEventListener('click', botoesAcoes);
 
 updateTable();

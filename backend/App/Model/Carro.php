@@ -14,8 +14,19 @@ class Carro{
     public $horaSaida;
     
     public function listarTodas(){
+        $sql = "
 
-        $sql = " SELECT * FROM tblCarros ";
+        SELECT idCarros, 
+        nome, 
+        placa, 
+        date_format(dataEntrada, '%d/%m/%Y') as dataEntrada,
+        time_format(horaEntrada, '%H:%i') as horaEntrada,
+        time_format(horaSaida, '%H:%i') as horaSaida,
+        totalValor,
+        idPrecos
+        FROM tblCarros ";
+
+        // $sql = " SELECT FROM tblCarros ";
 
         $stmt = Model::getConexao()->prepare($sql);
         $stmt->execute();
@@ -98,6 +109,5 @@ class Carro{
         return $stmt->execute();
 
     }
-
 }
 ?>
